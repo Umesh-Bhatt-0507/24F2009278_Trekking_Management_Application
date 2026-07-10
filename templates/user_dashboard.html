@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='admin.css')}}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <br>
+    <a href="{{ url_for('user.editProfile') }}">
+        <button class="btn">Edit Profile</button>
+    </a>
+    <div class="treks">
+        <div class="head" >
+            <h2>Treks</h2>
+        </div>
+        <form class="top-form" method="GET" action="{{ url_for('user.dashboard') }}">
+            <input type="text"
+                name="location"
+                placeholder="Search by location"
+                value="{{ request.args.get('location','') }}">
+
+            <select name="difficulty">
+                <option value="">All Difficulties</option>
+                <option value="1">Easy</option>
+                <option value="2">Moderate</option>
+                <option value="3">Moderate-Difficult</option>
+                <option value="4">Difficult</option>
+                <option value="5">Hard</option>
+            </select>
+
+            <button type="submit">Search</button>
+
+            <a href="{{ url_for('user.dashboard') }}">
+                <button type="button">Reset</button>
+            </a>
+        </form>
+        <hr>
+        <table>
+            <tr>
+                <th>Trek Name</th>
+                <th>Location</th>
+                <th>Difficulty</th>
+                <th>Slots</th>
+                <th>Action</th>
+            </tr>
+            {% for trek in treks %}
+                <tr>
+                    <td>{{trek.name}}</td>
+                    <td>{{trek.location}}</td>
+                    <td>
+                        {% if trek.difficulty == 4 %}
+                            Difficult
+                        {% elif trek.difficulty == 5 %}
+                            Hard
+                        {% elif trek.difficulty == 3 %}
+                            Moderate-Difficult
+                        {% elif trek.difficulty == 2 %}
+                            Moderate
+                        {% else %}
+                            Easy
+                        {% endif %}
+                    </td>
+                    <td>{{trek.available_slots}}</td>
+                    <td>
+                        {% if trek.id in booked_treks %}
+                            <button disabled>Already Booked</button>
+                        {% else %}
+                            <a href="{{ url_for('user.book', trek_id=trek.id) }}">
+                                <button type="button">Book</button>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="treks">
+        <div class="head" >
+            <h2>Bookings Status and History</h2>
+        </div>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th colspan="2">Action</th>
+            </tr>
+            {% for booking in bookings %}
+                {% if booking.status == "booked" %}
+                <tr>
+                    <td>{{ booking.trek.name }}</td>
+                    <td>{{ booking.trek.location }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>
+                        <a href="{{ url_for('user.cancelBook', trek_id=booking.trek_id) }}">
+                            <button type="button">Cancel Booking</button>
+                        </a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

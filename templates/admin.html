@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=4454289972, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="top">
+        <h2>Welcome Admin</h2>
+    </div>
+    
+    <div class="treks">
+        <div class="head" >
+            <h2>Treks</h2>
+            <button><a href="/admin/newTrek" style="text-decoration: none;">Add New Trek</a></button>
+        </div>
+        <br>
+        <form class="form-top" method="GET">
+            <input type="text" name="trek_search" placeholder="Search trek by ID or name">
+            <button>Search</button>
+        </form>
+        <hr>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Trek Name</th>
+                <th>Location</th>
+                <th>Difficulty</th>
+                <th>Slots</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            {% for trek in treks %}
+                <tr>
+                    <td>{{trek.id}}</td>
+                    <td>{{trek.name}}</td>
+                    <td>{{trek.location}}</td>
+                    <td>
+                        {% if trek.difficulty == 4 %}
+                            Difficult
+                        {% elif trek.difficulty == 5 %}
+                            Hard
+                        {% elif trek.difficulty == 3 %}
+                            Moderate-Difficult
+                        {% elif trek.difficulty == 2 %}
+                            Moderate
+                        {% else %}
+                            Easy
+                        {% endif %}
+                    </td>
+                    <td>{{trek.available_slots}}</td>
+                    <td>{{trek.status}}</td>
+                    <td>
+                        <a style="color: black; " href="/admin/trekDelete/{{trek.id}}">&#x1F5D1;</a>&nbsp;&nbsp;
+                        <a style="color: black;" href="/admin/trekEdit/{{trek.id}}">&#9998;</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="users treks">
+        <h2>Users</h2>
+        <br>
+        <form class="form-top" method="GET">
+            <input type="text" name="user_search" placeholder="Search user">
+            <button>Search</button>
+        </form>
+        <hr>
+        <table>
+            {% for user in users%}
+                <tr class="al">
+                    <td>{{user.name}}</td>
+                    <div>
+                        {% if user.status!="approved" %}
+                            <td>
+                                <a href="admin/blacklistUserRemove/{{user.id}}">
+                                    <button type="button">Approve</button>
+                                </a>
+                            </td>
+                        {% endif %}
+                        <td><a href="admin/blacklistUser/{{user.id}}"><button>blacklist</button></a></td>
+                    </div>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="staff treks">
+        <h2>Staff</h2>
+        <br>
+        <form class="form-top" method="GET">
+            <input type="text" name="staff_search" placeholder="Search staff">
+            <button>Search</button>
+        </form>
+        <hr>
+        <table>
+            {%for worker in staff %}
+                <tr class="al">
+                    <td>{{worker.name}}</td>
+                    <div>
+                        {% if worker.status!="approved" %}
+                            <td>
+                                <a href="admin/blacklistUserRemove/{{worker.id}}">
+                                    <button type="button">Approve</button>
+                                </a>
+                            </td>
+                        {% endif %}
+                        <td><a href="admin/blacklistUser/{{worker.id}}"><button>blacklist</button></a></td>
+                    </div>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+     <div class="bookings treks">
+        <h2>Bookings</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Trek</th>
+                <th>Location</th>
+                <th>Assigned Staff</th>
+                <th>Booking Date</th>
+                <th>Status</th>
+            </tr>
+
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.user.name }}</td>
+                <td>{{ booking.trek.name }}</td>
+                <td>{{ booking.trek.location }}</td>
+                <td>
+                    {% if booking.trek.assignments %}
+                        {{ booking.trek.assignments[0].staff.name }}
+                    {% else %}
+                        Not Assigned
+                    {% endif %}
+                </td>
+                <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
+                <td>{{ booking.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

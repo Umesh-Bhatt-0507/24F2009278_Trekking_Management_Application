@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <form action="/staff/update/{{ trek.id }}" method="POST">
+        <h2>Add New Trek</h2>
+        <div style="display:flex; gap:40px;">
+            <div style="flex:1;">            
+                <label>Available Slots</label><br>
+                <input type="number" name="available_slots" min="1" required value="{{trek.available_slots}}">
+            </div>
+            <div style="flex:1;">
+                <label>Status</label><br>
+                <select name="status">
+                    <option value="pending" {% if trek.status=="pending" %}selected{% endif %}>Pending</option>
+                    <option value="open" {% if trek.status=="open" %}selected{% endif %}>Open</option>
+                    <option value="closed" {% if trek.status=="closed" %}selected{% endif %}>Closed</option>
+                    <option value="completed" {% if trek.status=="completed" %}selected{% endif %}>Completed</option>
+                </select><br><br>
+            </div>
+        </div>
+        <br>
+        <a href="/staff">
+            <button type="button">Cancel</button>
+        </a>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

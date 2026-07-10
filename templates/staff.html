@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='staff.css')}}">
+</head>
+<body>
+    <h2>Welcome {{worker.name}}</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="upcoming_drives registered_companies">
+        <h2>Upcoming Drives</h2>
+        <table>
+            <tr>
+                <th>Trek Name</th>
+                <th>Location</th>
+                <th>Available Slots</th>
+                <th>Status</th>
+                <th colspan="2">Actions</th>
+            </tr>
+            {% for a in assignments %}
+                <tr>
+                    <td>{{ a.trek.name }}</td>
+                    <td>{{ a.trek.location }}</td>
+                    <td>{{ a.trek.available_slots }}</td>
+                    <td>{{a.trek.status}}</td>
+                    <td><a href="staff/update/{{a.id}}"><button>Update</button></a></td>
+                    <td><a href="staff/participants/{{a.id}}"><button>Check Participants</button></td>
+                </tr>
+            {% endfor %}
+        </table>
+</body>
+</html>
+

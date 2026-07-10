@@ -1,0 +1,90 @@
+
+*{
+    font-family: "Poppins", sans-serif;
+}
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#e7e7d9;
+}
+.top{
+    height: 10vh;
+}
+
+.registered_companies{
+    margin: 1rem;
+    width: 50rem;
+    height: 30rem;          
+    background: #fff5;
+    border-radius: 1.5rem;
+    box-shadow: 0px 2px 10px rgb(119, 119, 122);
+    padding: 1rem;
+    overflow-y: auto;          /* vertical scroll */
+    overflow-x: hidden;
+}
+
+.registered_companies h2{
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.registered_companies table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* .registered_companies tr{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem;
+    border-bottom: 1px solid #ddd;
+} */
+
+.registered_companies button,#create_btn{
+    font-size: 15px;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    width: 10rem;
+    font-weight: 400;
+    color: black; 
+}
+
+#create_btn:hover{
+    background-color:#e7e7d9;
+    color: #f23752;
+    transform: scale(1.1);
+    font-weight: 600;
+}
+
+.registered_companies button:hover{
+    background-color:#e7e7d9;
+    color: #f23752;
+    transform: scale(1.1);
+    font-weight: 600;
+}
+
+.registered_companies th,
+.registered_companies td{
+    padding: 0.7rem;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+.registered_companies th{
+    font-weight: 600;
+}
+
+.registered_companies tr:hover{
+    background-color: #f5f5f5;
+}
+
+.registered_companies td:last-child{
+    text-align: right;
+}
+
+

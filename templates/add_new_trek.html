@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <form action="/admin/newTrek" method="POST">
+        <h2>Add New Trek</h2>
+        <div style="display:flex; gap:40px;">
+            <div style="flex:1;">
+                <label>Trek Name</label><br>
+                <input type="text" name="name" required><br><br>
+                <label>Location</label><br>
+                <input type="text" name="location" required><br><br>
+                <label>Difficulty</label><br>
+                <select name="difficulty" required>
+                    <option value="">-- Select --</option>
+                    <option value="1">Easy</option>
+                    <option value="2">Moderate</option>
+                    <option value="3">Moderate-Difficult</option>
+                    <option value="4">Difficult</option>
+                    <option value="5">Hard</option>
+                </select><br><br>
+                <label>Duration (Days)</label><br>
+                <input type="number" name="duration" min="1" required><br><br>
+                <label>Available Slots</label><br>
+                <input type="number" name="available_slots" min="1" required>
+            </div>
+
+            <div style="flex:1;">
+
+                <label>Start Date</label><br>
+                <input type="date" name="start_date" required><br><br>
+                <label>End Date</label><br>
+                <input type="date" name="end_date" required><br><br>
+                <label>Assign Staff</label><br>
+                <select name="staff_id">
+                    <option value="">-- Select Staff --</option>
+                    {% for s in staff %}
+                        <option value="{{ s.id }}">
+                            {{ s.name }}
+                        </option>
+                    {% endfor %}
+                </select><br><br>
+                <label>Status</label><br>
+                <select name="status">
+                    <option value="pending">Pending</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                    <option value="completed">Completed</option>
+                </select><br><br>
+                <label>Description</label><br>
+                <textarea name="description" rows="5"></textarea>
+            </div>
+        </div>
+        <br>
+        <a href="/admin"><button type="button">Cancel</button></a>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

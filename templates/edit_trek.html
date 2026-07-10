@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <form action="/admin/trekEdit/{{ trek.id }}" method="POST">
+        <h2>Add New Trek</h2>
+        <div style="display:flex; gap:40px;">
+            <div style="flex:1;">
+                <label>Trek Name</label><br>
+                <input type="text" name="name" required value="{{trek.name}}"><br><br>
+                <label>Location</label><br>
+                <input type="text" name="location" value="{{trek.location}}" required><br><br>
+                <label>Difficulty</label><br>
+                <select name="difficulty" required>
+                    <option value="1" {% if trek.difficulty == 1 %}selected{% endif %}>Easy</option>
+                    <option value="2" {% if trek.difficulty == 2 %}selected{% endif %}>Moderate</option>
+                    <option value="3" {% if trek.difficulty == 3 %}selected{% endif %}>Moderate-Difficult</option>
+                    <option value="4" {% if trek.difficulty == 4 %}selected{% endif %}>Difficult</option>
+                    <option value="5" {% if trek.difficulty == 5 %}selected{% endif %}>Hard</option>
+                </select><br><br>
+                <label>Duration (Days)</label><br>
+                <input type="number" name="duration" min="1" required value={{trek.duration}}><br><br>
+                <label>Available Slots</label><br>
+                <input type="number" name="available_slots" min="1" required value="{{trek.available_slots}}">
+            </div>
+
+            <div style="flex:1;">
+                <label>Start Date</label><br>
+                <input type="date" name="start_date" required value="{{ trek.start_date.strftime('%Y-%m-%d') }}"><br><br>
+                <label>End Date</label><br>
+                <input type="date" name="end_date" required value="{{ trek.end_date.strftime('%Y-%m-%d') }}"><br><br>
+                <label>Assign Staff</label><br>
+                <select name="staff_id">
+                    {% for s in staff %}
+                        <option 
+                            value="{{ s.id }}"
+                            {% if assignment and assignment.staff_id == s.id %}selected{% endif %}>
+                            {{ s.name }}
+                        </option>
+                    {% endfor %}
+                </select><br><br>
+                <label>Status</label><br>
+                <select name="status">
+                    <option value="pending" {% if trek.status=="pending" %}selected{% endif %}>Pending</option>
+                    <option value="open" {% if trek.status=="open" %}selected{% endif %}>Open</option>
+                    <option value="closed" {% if trek.status=="closed" %}selected{% endif %}>Closed</option>
+                    <option value="completed" {% if trek.status=="completed" %}selected{% endif %}>Completed</option>
+                </select><br><br>
+                <label>Description</label><br>
+                <textarea name="description" rows="5">{{trek.description}}</textarea>
+            </div>
+        </div>
+        <br>
+        <a href="/admin">
+            <button type="button">Cancel</button>
+        </a>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
