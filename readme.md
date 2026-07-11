@@ -194,6 +194,4 @@ Some features that can be added later are:
 
 ## Developed By
 
-College Mini Project
-
-Trek Management System using Flask and SQLite.
+Umesh Bhatt 24f2009278
